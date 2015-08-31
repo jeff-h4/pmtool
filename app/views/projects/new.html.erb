@@ -1,0 +1,12 @@
+
+<h1>Create a New Project</h1>
+<% if @project.errors.any?  %>
+  <ul>
+    <%= @project.errors.full_messages.each do |msg|  %>
+      <li><%= msg  %></li>    
+    <% end  %>
+  </ul>
+<% end  %>
+
+<%= render "form"  %>
+

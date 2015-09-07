@@ -21,6 +21,7 @@ class ProjectsController < ApplicationController
   end
 
   def show 
+    @discussion = Discussion.new
   end
 
   def edit 

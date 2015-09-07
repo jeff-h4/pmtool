@@ -1,0 +1,24 @@
+
+<h1>Edit Existing Discussion</h1>
+
+<% if @discussion.errors.any?  %>
+  <ul>
+    <%= @discussion.errors.full_messages.each do |msg|  %>
+      <li><%= msg  %></li>    
+    <% end  %>
+  </ul>
+<% end  %>
+
+<%= form_for [@project,@discussion] do |f|  %>
+  <div class="form-group">
+    <%= f.label :title  %> 
+    <%= f.text_field :title, class: "form-control"  %> 
+  </div>
+  <div class="form-group">
+    <%= f.label :body%> 
+    <%= f.text_area :body, class: "form-control"  %> 
+  </div>
+  <%= f.submit "Update Discussion Item", method: :update, class: "btn btn-primary"  %>
+<% end  %>
+
+

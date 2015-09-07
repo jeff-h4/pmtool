@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   root 'home#index'
   resources :projects do
-    resources :discussions, only: [:create, :destroy]
+    resources :discussions, only: [:create, :edit, :update, :destroy]
   end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

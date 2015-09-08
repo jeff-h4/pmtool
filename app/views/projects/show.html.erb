@@ -20,25 +20,27 @@
   <%= f.text_area :body, class: "form-control"  %>
   <%= f.submit  %>
 <% end  %>
-<h3>Current Discussions</h3>
-<ul>
-
-<table>
-  <thead>
-    <tr>
-      <th>Date</th>
-      <th>Discussion Title</th>
-      <th>Operations</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @project.discussions.each do |d|  %>
-     <tr>
-       <td><%= format_date(d.created_at)  %></td>
-       <td><%= d.title  %></td>
-       <td><%= link_to "Edit", edit_project_discussion_path(@project,d), class: "btn btn-info"  %>
-           <%= link_to "Delete", project_discussion_path(@project,d), method: :delete, class: "btn btn-danger"  %></td>
-     </tr>
-    <% end  %>
-  </tbody>
-</table>
+<div class="container">
+  <h3>Current Discussions</h3>
+  
+  <table>
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Discussion Title</th>
+        <th>Operations</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @project.discussions.each do |d|  %>
+       <tr>
+         <td><%= format_date(d.created_at)  %></td>
+         <td><%= link_to d.title, project_discussion_path(@project,d)  %></td>
+         <td><%= link_to "Edit", edit_project_discussion_path(@project,d), class: "btn btn-info"  %>
+             <%= link_to "Delete", project_discussion_path(@project,d), method: :delete, class: "btn btn-danger"  %></td>
+         </td>
+       </tr>
+      <% end  %>
+    </tbody>
+  </table>
+</div>

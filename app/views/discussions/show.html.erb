@@ -1,0 +1,36 @@
+
+
+<h1>Showing Discussion Thread</h1>
+
+<div class="container">
+
+  <h2>Add a comment</h2>
+  <%= form_for [@project,@discussion,@comment], class: "form-group" do |f|  %>
+    <%= f.label :body  %>
+    <%= f.text_area :body, class: "form-control"  %>
+    <%= f.submit %>
+  <% end  %>
+  <h3>Comment Thread</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Comment Body</th>
+        <th>Operations</th>
+      </tr>
+    </thead>
+    <tbody>
+
+       <% @discussion.comments.each do |c|  %>
+       <tr>
+         <td><%= format_date(c.created_at)  %></td>
+         <td><%= c.body  %></td>
+         <td><%= link_to "Edit", edit_project_discussion_comment_path(@project,@discussion,c), class: "btn btn-info"  %>
+             <%= link_to "Delete", project_discussion_comment_path(@project,@discussion,c), method: :delete, 
+                                   data: {confirm: "Are you sure?"}, class: "btn btn-danger"  %></td>
+         </td>
+       </tr>
+      <% end  %>
+    </tbody>
+  </table>
+</div>

@@ -3,7 +3,9 @@ Rails.application.routes.draw do
 
   root 'home#index'
   resources :projects do
-    resources :discussions, only: [:create, :edit, :update, :destroy]
+    resources :discussions, only: [:create, :show, :edit, :update, :destroy] do
+      resources :comments, only: [:create, :edit, :update, :destroy]
+    end
   end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
@@ -40,8 +42,7 @@ Rails.application.routes.draw do
 
   # Example resource route with more complex sub-resources:
   #   resources :products do
-  #     resources :comments
-  #     resources :sales do
+  #     #     resources :sales do
   #       get 'recent', on: :collection
   #     end
   #   end

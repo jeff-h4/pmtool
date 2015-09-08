@@ -1,7 +1,7 @@
 class DiscussionsController < ApplicationController
 
   before_action :discussion_params, only: [:create, :update]
-  before_action :find_discussion, only: [:edit, :update, :destroy]
+  before_action :find_discussion, only: [:show, :edit, :update, :destroy]
 
   def create
     @project = Project.find params[:project_id]
@@ -13,6 +13,10 @@ class DiscussionsController < ApplicationController
       flash[:alert] = "Error creating discussion"
       redirect_to @project, alert: "Discussion entry was NOT created." 
     end
+  end
+  def show
+    @project = Project.find params[:project_id]
+    @comment = Comment.new
   end
   def edit
     @project = Project.find params[:project_id]

@@ -1,0 +1,19 @@
+
+<h1>Edit Comment</h1>
+<% if @comment.errors.any?  %>
+  <ul>
+    <%= @comment.errors.full_messages.each do |msg|  %>
+      <li><%= msg  %></li>    
+    <% end  %>
+  </ul>
+<% end  %>
+
+<%= form_for [@project,@discussion,@comment] do |f|  %>
+  <div class="form-group">
+    <%= f.label :body%> 
+    <%= f.text_area :body, class: "form-control"  %> 
+  </div>
+  <%= f.submit "Update Comment", method: :update, class: "btn btn-primary"  %>
+<% end  %>
+
+

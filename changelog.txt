@@ -1,0 +1,71 @@
+
+
+Adding Comments
+=======================
+1. Generate Comments resource, specifying the fields as arguments (body:text discussion:references)
+2. Check the migration, then run it.
+3. Modify the automatically added route to nest under the main projects resource
+4. Add action templates for create,edit,update,destroy in Comments controller
+5. Check the models. Add has_many comments to discussion relationship, and the dependency relationship. The belongs_to association
+should already be established.
+6. Modify views to be able to display the comments.
+  I realized the display of the discussion needs to change. Project.show must display link to Discussion. Actual discussion should be on its own view page.
+7. Modify Discussion controller to display the comment thread, using the discussion#show action
+8. Buildup the Comment Controller
+9. Setup the Discussion (show)  and Comment (edit) views.
+
+Debug as Required.
+
+Adding user authentication
+========================
+- Install bcrypt gem
+1. Generate User resource, specifying fields (first_name:string last_name:string password_digest:string email:string)
+2. Modify CreateUser migration by adding
+  add_index :users, email
+	to the end of the change() method
+3. User Model: Add line
+  has_secure_password
+	Also add validation
+	  validates :email, presence: {message: "must be present"},
+		                  uniqueness: true,
+										  format: /\A([\w+\-].?)+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
+	Also Add model function
+	def user_name
+		"#{first_name} #{last_name}"
+	end
+4. Add view Users/new.html.erb. Make it render a form.
+5. Add the form. I copy and pasted this.
+6. Setup the User controller. I currently am just copying and pasting this. Need to understand more later.
+7. Persistent user information needs to be stored in the client's cookie. Sessions is stored within cookie to track sign-in.
+   Generate the sessions resource
+	 bin/rails g controller sessions
+8. Run the Migration
+9. Create Sessions view sessions/new.html.erb, but leave it blank for now.
+10. In sessions controller, define new, create, destroy
+11. In view sessions/new.html.erb,
+  Add "Sign In" form.
+12. Add shared/_standard_errors.html.erb, and layouts/_alertflash.html.erb for error reporting
+13. In the navbar view, add a sign-in link. If not there already, also add Sign-Up link
+14. Fill in view sessions/new.html.erb with the Sign-In form
+15. Sessions Controller - define create(). Copy and pasted.
+16. Add routes for Session and user.
+  #resources :users, only: [:new, :create]
+  # The following would add edit and update views/actions
+  # But the User ID would get exposed in the URLs, which is bad practice
+  #resources :users, only: [:new, :create, :edit, :update]
+  # The better way is below:
+  resources :users, only: [:new, :create] do
+    # on: :collection means the resource is not nested.
+    # It does not include the user :id in the URL
+    get   :edit,   on: :collection 
+    patch :update, on: :collection
+  end
+  resources :sessions, only: [:new, :create] do
+    delete :destroy, on: :collection
+  end
+17. Page won't work until we add helper functions that are used in the views.
+   Add helper functions current_user() and user_signed_in?() to the Application Controller
+18. We need to force user to sign-in when editing objects.
+  Add helper function authenticate_user!() to the Application Controller
+19. Inside main controller (Project Controller), add before_actions to call authenticate_user!
+

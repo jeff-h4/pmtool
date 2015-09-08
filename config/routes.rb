@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :users
   get 'home/index'
 
   root 'home#index'
@@ -7,6 +8,23 @@ Rails.application.routes.draw do
       resources :comments, only: [:create, :edit, :update, :destroy]
     end
   end
+
+  #resources :users, only: [:new, :create]
+  # The following would add edit and update views/actions
+  # But the User ID would get exposed in the URLs, which is bad practice
+  #resources :users, only: [:new, :create, :edit, :update]
+  # The better way is below:
+  resources :users, only: [:new, :create] do
+    # on: :collection means the resource is not nested.
+    # It does not include the user :id in the URL
+    get   :edit,   on: :collection 
+    patch :update, on: :collection
+  end
+  resources :sessions, only: [:new, :create] do
+    delete :destroy, on: :collection
+  end
+
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
